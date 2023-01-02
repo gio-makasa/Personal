@@ -15,10 +15,11 @@
     box-sizing: border-box;
 }
 
-body {
+main body {
     line-height: 1.5;
     font-size: 16px;
 }
+
 body.dark {
     --bg-black-900: #151515;
     --bg-black-100: #222222;
@@ -40,6 +41,7 @@ body.dark {
     padding: 30px;
     height: 100%;
     z-index: 10;
+    transition: all 0.3s ease;
 
     #logo {
         position: absolute;
@@ -97,6 +99,7 @@ body.dark {
         top: 20px;
         border-radius: 5px;
         background-color: var(--bg-black-100);
+        transition: all 0.3s ease;
 
         span {
             position: relative;
@@ -124,6 +127,22 @@ body.dark {
             position: absolute;
             top: 6px;
             left: 0;
+        }
+    }
+
+    #nav-toggler.open {
+        span {
+            background-color: transparent;
+        }
+
+        span::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+
+        span::after {
+            transform: rotate(-45deg);
+            top: 0;
         }
     }
 
@@ -186,14 +205,21 @@ body.dark {
 }
 
 #main-content {
-    padding-left: 270px;
-
     .section {
         background-color: var(--bg-black-900);
         min-height: 100vh;
         display: block;
         padding: 0 30px;
         opacity: 1;
+        position: fixed;
+        left: 270px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        transition: all 0.3s ease;
 
         .container {
             max-width: 1100px;
@@ -243,6 +269,26 @@ body.dark {
                     }
                 }
             }
+        }
+    }
+
+    .section.back-section {
+        z-index: 1;
+    }
+
+    .section.active {
+        z-index: 2;
+        opacity: 1;
+        animation: slideSection 1s;
+    }
+
+    @keyframes slideSection {
+        0% {
+            transform: translateX(100%);
+        }
+
+        100% {
+            transform: rotateX(0%);
         }
     }
 
@@ -710,10 +756,30 @@ body.dark {
 @media (max-width:1199px) {
     #aside {
         left: -270px;
+
+        #nav-toggler {
+            display: flex;
+            left: 30px;
+        }
+
+        #nav-toggler.open {
+            left: 300px;
+        }
     }
 
+    #aside.open {
+        left: 0;
+    }
+
+
     #main-content {
-        padding-left: 0;
+        .section {
+            left: 0;
+        }
+
+        .section.open {
+            left: 270px;
+        }
 
         .about {
             .about-content {

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&family=Dancing+Script&display=swap");
 :root {
   --bg-black-900: #f2f2fc;
   --bg-black-100: #fdf9ff;
@@ -14,7 +14,7 @@
   box-sizing: border-box;
 }
 
-body {
+main body {
   line-height: 1.5;
   font-size: 16px;
 }
@@ -40,6 +40,7 @@ body.dark {
   padding: 30px;
   height: 100%;
   z-index: 10;
+  transition: all 0.3s ease;
 }
 
 #aside #logo {
@@ -98,6 +99,7 @@ body.dark {
   top: 20px;
   border-radius: 5px;
   background-color: var(--bg-black-100);
+  transition: all 0.3s ease;
 }
 
 #aside #nav-toggler span {
@@ -126,6 +128,20 @@ body.dark {
   position: absolute;
   top: 6px;
   left: 0;
+}
+
+#aside #nav-toggler.open span {
+  background-color: transparent;
+}
+
+#aside #nav-toggler.open span::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+#aside #nav-toggler.open span::after {
+  transform: rotate(-45deg);
+  top: 0;
 }
 
 #aside .nav {
@@ -185,16 +201,21 @@ body.dark {
   box-shadow: 0 0 20px rgba(48, 46, 77, 0.15);
 }
 
-#main-content {
-  padding-left: 270px;
-}
-
 #main-content .section {
   background-color: var(--bg-black-900);
   min-height: 100vh;
   display: block;
   padding: 0 30px;
   opacity: 1;
+  position: fixed;
+  left: 270px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.3s ease;
 }
 
 #main-content .section .container {
@@ -245,6 +266,25 @@ body.dark {
   top: 100%;
   left: 0;
   margin-top: 8px;
+}
+
+#main-content .section.back-section {
+  z-index: 1;
+}
+
+#main-content .section.active {
+  z-index: 2;
+  opacity: 1;
+  animation: slideSection 1s;
+}
+
+@keyframes slideSection {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: rotateX(0%);
+  }
 }
 
 #main-content .home {
@@ -712,8 +752,21 @@ body.dark {
   #aside {
     left: -270px;
   }
-  #main-content {
-    padding-left: 0;
+  #aside #nav-toggler {
+    display: flex;
+    left: 30px;
+  }
+  #aside #nav-toggler.open {
+    left: 300px;
+  }
+  #aside.open {
+    left: 0;
+  }
+  #main-content .section {
+    left: 0;
+  }
+  #main-content .section.open {
+    left: 270px;
   }
   #main-content .about .about-content .personal-info .info-item p span {
     display: block;
